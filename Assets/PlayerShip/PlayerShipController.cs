@@ -109,10 +109,16 @@ public class PlayerShipController : MonoBehaviour
 
     if (isFiring && fireCooldownRemaining <= 0f)
     {
-      GameObject laserInstance = Instantiate(laserPrefab, transform.TransformPoint(Vector2.zero), transform.rotation);
-      laserInstance.GetComponent<LaserController>().shipVelocity = rb.velocity;
-      fireCooldownRemaining = fireCooldown;
-      laserEmitterAnimator.SetTrigger("Fire");
+      GameObject laserInstance = ObjectPool.instance.Get(laserPrefab.GetType());
+      if (laserInstance != null)
+      {
+        laserInstance.transform.position = transform.TransformPoint(Vector2.zero);
+        laserInstance.transform.rotation = transform.rotation;
+        laserInstance.GetComponent<LaserController>().shipVelocity = rb.velocity;
+        laserInstance.SetActive(true);
+        fireCooldownRemaining = fireCooldown;
+        laserEmitterAnimator.SetTrigger("Fire");
+      }
     }
   }
 

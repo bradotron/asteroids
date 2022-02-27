@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using AsteroidsNamespace;
 
 public class LaserController : MonoBehaviour
@@ -11,34 +10,36 @@ public class LaserController : MonoBehaviour
   public float speed = 5f;
   public float maxTimeAlive = 3f;
   private float timeAlive = 0f;
+  private bool velocityInitialized = false;
 
   // Start is called before the first frame update
   void Start()
   {
     rb = GetComponent<Rigidbody2D>();
-    Vector2 velocityTransform = transform.TransformVector(Vector2.up * speed);
-    rb.velocity = shipVelocity + velocityTransform;
     gameObject.tag = Tags.Laser;
   }
 
   // Update is called once per frame
   void Update()
   {
+    if (!velocityInitialized)
+    {
+      Vector2 velocityTransform = transform.TransformVector(Vector2.up * speed);
+      rb.velocity = shipVelocity + velocityTransform;
+      velocityInitialized = true;
+    }
+
     timeAlive += Time.deltaTime;
 
     if (timeAlive > maxTimeAlive)
     {
-      DestroyMe();
+      gameObject.SetActive(false);
     }
   }
 
-  void OnBecameInvisible()
+  void OnDisable()
   {
-    DestroyMe();
-  }
-
-  void DestroyMe()
-  {
-    Destroy(gameObject);
+    timeAlive = 0;
+    velocityInitialized = false;
   }
 }
