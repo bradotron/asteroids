@@ -52,7 +52,7 @@ public class PlayerShipController : MonoBehaviour
     HandleThrust();
   }
 
-  private void RotateLeft(InputAction.CallbackContext context)
+  public void Input_RotateLeft(InputAction.CallbackContext context)
   {
     if (context.performed)
     {
@@ -64,7 +64,7 @@ public class PlayerShipController : MonoBehaviour
     }
   }
 
-  private void RotateRight(InputAction.CallbackContext context)
+  public void Input_RotateRight(InputAction.CallbackContext context)
   {
     if (context.performed)
     {
@@ -76,7 +76,7 @@ public class PlayerShipController : MonoBehaviour
     }
   }
 
-  private void Thrust(InputAction.CallbackContext context)
+  public void Input_Thrust(InputAction.CallbackContext context)
   {
     if (context.performed)
     {
@@ -88,7 +88,7 @@ public class PlayerShipController : MonoBehaviour
     }
   }
 
-  private void Fire(InputAction.CallbackContext context)
+  public void Input_Fire(InputAction.CallbackContext context)
   {
     if (context.performed)
     {

@@ -88,6 +88,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "GameController",
+            "id": "b74616f2-4578-4e01-839a-dfb1eb79bdb1",
+            "actions": [
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "3a4f36bd-3856-4679-9999-bd69f688b341",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "be75bc70-4374-405c-9dfc-02cb3c33841d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
