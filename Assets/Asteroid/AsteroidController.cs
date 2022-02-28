@@ -19,6 +19,8 @@ public class AsteroidController : MonoBehaviour
       explosion.SetActive(true);
       explosion.GetComponent<ParticleSystem>().Play();
 
+      AudioManager.instance.Play("Explosion");
+
       GameController.instance.PlayerScored();
     }
   }

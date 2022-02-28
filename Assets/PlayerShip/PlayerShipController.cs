@@ -117,6 +117,9 @@ public class PlayerShipController : MonoBehaviour
         laserInstance.transform.rotation = transform.rotation;
         laserInstance.GetComponent<LaserController>().shipVelocity = rb.velocity;
         fireCooldownRemaining = fireCooldown;
+
+        AudioManager.instance.Play("Laser");
+
         laserEmitterAnimator.SetTrigger("Fire");
       }
     }
@@ -150,6 +153,7 @@ public class PlayerShipController : MonoBehaviour
       {
         thrusterAnimator.SetBool("IsThrusting", true);
         thrusterAnimator.SetBool("IsStopped", false);
+        AudioManager.instance.Play("Thrust");
       }
 
       Vector2 thrustForce = transform.up * rb.mass * acceleration;
@@ -173,6 +177,7 @@ public class PlayerShipController : MonoBehaviour
       {
         thrusterAnimator.SetBool("IsThrusting", false);
         thrusterAnimator.SetBool("IsStopped", true);
+        AudioManager.instance.Stop("Thrust");
       }
     }
   }
@@ -191,6 +196,9 @@ public class PlayerShipController : MonoBehaviour
       explosion.transform.position = transform.position;
       explosion.SetActive(true);
       explosion.GetComponent<ParticleSystem>().Play();
+      
+      AudioManager.instance.Stop("Thrust");
+      AudioManager.instance.Play("Explosion");
     }
   }
 }
