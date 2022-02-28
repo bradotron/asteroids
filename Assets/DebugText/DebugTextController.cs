@@ -12,14 +12,20 @@ public class DebugTextController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    rbPlayerShip = playerShip.GetComponent<Rigidbody2D>();
-    DebugText.text = GetFormatedDebugText();
+    if (playerShip != null)
+    {
+      rbPlayerShip = playerShip.GetComponent<Rigidbody2D>();
+      DebugText.text = GetFormatedDebugText();
+    }
   }
 
   // Update is called once per frame
   void Update()
   {
-    DebugText.text = GetFormatedDebugText();
+    if (rbPlayerShip != null)
+    {
+      DebugText.text = GetFormatedDebugText();
+    }
   }
 
   private string GetFormatedDebugText()

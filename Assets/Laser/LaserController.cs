@@ -16,7 +16,6 @@ public class LaserController : MonoBehaviour
   void Start()
   {
     rb = GetComponent<Rigidbody2D>();
-    gameObject.tag = Tags.Laser;
   }
 
   // Update is called once per frame

@@ -109,13 +109,13 @@ public class PlayerShipController : MonoBehaviour
 
     if (isFiring && fireCooldownRemaining <= 0f)
     {
-      GameObject laserInstance = ObjectPool.instance.Get(laserPrefab.GetType());
+      GameObject laserInstance = ObjectPool.instance.Get(AsteroidsNamespace.Tags.Laser);
       if (laserInstance != null)
       {
-        laserInstance.transform.position = transform.TransformPoint(Vector2.zero);
+        laserInstance.SetActive(true);
+        laserInstance.transform.position = transform.TransformPoint(Vector2.up * 0.15f);
         laserInstance.transform.rotation = transform.rotation;
         laserInstance.GetComponent<LaserController>().shipVelocity = rb.velocity;
-        laserInstance.SetActive(true);
         fireCooldownRemaining = fireCooldown;
         laserEmitterAnimator.SetTrigger("Fire");
       }
@@ -174,6 +174,15 @@ public class PlayerShipController : MonoBehaviour
         thrusterAnimator.SetBool("IsThrusting", false);
         thrusterAnimator.SetBool("IsStopped", true);
       }
+    }
+  }
+
+  void OnCollisionEnter2D(Collision2D collision)
+  {
+    if (collision.gameObject.tag == AsteroidsNamespace.Tags.Asteroid)
+    {
+      gameObject.SetActive(false);
+      GameController.instance.PlayerDied();
     }
   }
 }
