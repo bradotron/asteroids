@@ -32,6 +32,8 @@ public class ObjectPool : MonoBehaviour
 
   void Start()
   {
+    Pool.Clear();
+    
     foreach (ObjectPoolItem item in itemsToPool)
     {
       Pool.Add(item.tag, item);

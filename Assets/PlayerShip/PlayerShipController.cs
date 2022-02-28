@@ -183,6 +183,14 @@ public class PlayerShipController : MonoBehaviour
     {
       gameObject.SetActive(false);
       GameController.instance.PlayerDied();
+
+      float explosionScale = Random.Range(0.3f, 0.5f);
+
+      GameObject explosion = ObjectPool.instance.Get("Explosion");
+      explosion.transform.localScale = new Vector3(explosionScale, explosionScale, explosionScale);
+      explosion.transform.position = transform.position;
+      explosion.SetActive(true);
+      explosion.GetComponent<ParticleSystem>().Play();
     }
   }
 }

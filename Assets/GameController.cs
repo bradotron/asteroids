@@ -8,7 +8,8 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
   public static GameController instance;
-  public GameObject playerShip;
+  public PlayerInput playerInput;
+  private GameObject playerShip;
   public GameObject gameOverText;
   public bool gameOver;
   private bool FirePressed;
@@ -31,7 +32,9 @@ public class GameController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    ResetGame();
+    InsertPlayerShipIntoScene();
+    ResetScore();
+    ResetGameOver();
   }
 
   // Update is called once per frame
@@ -39,7 +42,7 @@ public class GameController : MonoBehaviour
   {
     if (gameOver && FirePressed)
     {
-      ResetGame();
+      ResetScene();
     }
   }
   public void Input_Fire(InputAction.CallbackContext context)
@@ -53,20 +56,60 @@ public class GameController : MonoBehaviour
       FirePressed = false;
     }
   }
-  void ResetGame()
+  void ResetScene()
   {
-    gameOver = false;
-    gameOverText.SetActive(false);
-    score = 0;
-    scoreText.text = "Score: " + score;
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+  }
 
-    // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+  void InsertPlayerShipIntoScene()
+  {
+    if (playerShip == null)
+    {
+      playerShip = ObjectPool.instance.Get("Player");
+      ConnectPlayerInputToPlayerShip();
+    }
 
     playerShip.transform.position = Vector2.zero;
     playerShip.transform.rotation = Quaternion.identity;
     playerShip.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     playerShip.GetComponent<Rigidbody2D>().angularVelocity = 0;
     playerShip.SetActive(true);
+  }
+
+  void ResetScore()
+  {
+    score = 0;
+    scoreText.text = "Score: " + score;
+  }
+
+  void ResetGameOver()
+  {
+    gameOver = false;
+    gameOverText.SetActive(false);
+  }
+
+  void ConnectPlayerInputToPlayerShip()
+  {
+    InputAction fireAction = playerInput.actions["Fire"];
+    InputAction rotateLeftAction = playerInput.actions["RotateLeft"];
+    InputAction rotateRightAction = playerInput.actions["RotateRight"];
+    InputAction thrustAction = playerInput.actions["Thrust"];
+
+    fireAction.started += playerShip.GetComponent<PlayerShipController>().Input_Fire;
+    fireAction.performed += playerShip.GetComponent<PlayerShipController>().Input_Fire;
+    fireAction.canceled += playerShip.GetComponent<PlayerShipController>().Input_Fire;
+
+    rotateLeftAction.started += playerShip.GetComponent<PlayerShipController>().Input_RotateLeft;
+    rotateLeftAction.performed += playerShip.GetComponent<PlayerShipController>().Input_RotateLeft;
+    rotateLeftAction.canceled += playerShip.GetComponent<PlayerShipController>().Input_RotateLeft;
+    
+    rotateRightAction.started += playerShip.GetComponent<PlayerShipController>().Input_RotateRight;
+    rotateRightAction.performed += playerShip.GetComponent<PlayerShipController>().Input_RotateRight;
+    rotateRightAction.canceled += playerShip.GetComponent<PlayerShipController>().Input_RotateRight;
+    
+    thrustAction.started += playerShip.GetComponent<PlayerShipController>().Input_Thrust;
+    thrustAction.performed += playerShip.GetComponent<PlayerShipController>().Input_Thrust;
+    thrustAction.canceled += playerShip.GetComponent<PlayerShipController>().Input_Thrust;
   }
 
   public void PlayerDied()
